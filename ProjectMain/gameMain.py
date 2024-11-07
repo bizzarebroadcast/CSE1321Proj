@@ -4,6 +4,8 @@ from gameChar import gameChar
 from gamePlatform import Platform
 pygame.init()
 
+#hello
+
 screen = pygame.display.set_mode((1400, 800))
 pygame.display.set_caption("Funny Game")
 
