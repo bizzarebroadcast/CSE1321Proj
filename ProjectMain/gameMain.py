@@ -7,6 +7,7 @@ pygame.init()
 #hello
 
 screen = pygame.display.set_mode((1400, 800))
+clock = pygame.time.Clock()
 pygame.display.set_caption("Funny Game")
 
 blue = (0, 0, 255)
@@ -15,7 +16,7 @@ black = (0, 0, 0)
 char = gameChar(800, 750, screen)
 
 
-def platforms(self):
+def platforms(screen):
     return [
         Platform(200, 650, 200, 20, screen),
         Platform(500, 550, 200, 20, screen),
@@ -38,9 +39,14 @@ while running:
     char.draw()
 
     for plat in platform_list:
+        platRect = plat.rectPlat
+        charRect = char.rectMod
+        if platRect.colliderect(charRect):
+
+            print("They hit a platform")
         plat.draw()
 
     pygame.display.update()
-    pygame.time.delay(30)
+    clock.tick(30)
 
 pygame.quit()

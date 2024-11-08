@@ -9,27 +9,32 @@ class gameChar():
         self.jumping = False
         self.yVel = 0
         self.pressed_keys = pygame.key.get_pressed()
+        #quick fix
+        self.rectMod = pygame.Rect(x, y, 50, 50)
     def draw(self):
-        pygame.draw.rect(self.screen,(255, 0, 0),(self.x, self.y, 50, 50))
-        print(str(self.x)+ " , " + str(self.y))
+        pygame.draw.rect(self.screen,(255, 0, 0),(self.rectMod.x, self.rectMod.y, 50, 50))
+        #print(str(self.rectMod.x)+ " , " + str(self.rectMod.y))
     def move(self, pressed_keys):
-        if pressed_keys[pygame.K_d] and self.x <= 1400:
-            self.x += 5
-        if pressed_keys[pygame.K_a] and self.x >= 0:
-            self.x -= 5
+        if pressed_keys[pygame.K_d] and self.rectMod.x <= 1350:
+            self.rectMod.x += 5
+        if pressed_keys[pygame.K_a] and self.rectMod.x >= 0:
+            self.rectMod.x -= 5
         if pressed_keys[pygame.K_SPACE] and self.jumping == False:
             self.jumping = True
             self.yVel = 20
-            self.y -= 1
+            self.rectMod.y -= 1
             print("jump")
         if self.jumping == True:
-            if self.y - self.yVel > 750:
-                self.y = 750
+            if self.rectMod.y - self.yVel > 750:
+                self.rectMod.y = 750
                 self.yVel = 0
                 self.jumping = False
-            elif self.y <= 750:
-                self.y -= self.yVel
+            elif self.rectMod.y <= 750:
+                self.rectMod.y -= self.yVel
             self.yVel -= 1
+
+
+
 
 
 
