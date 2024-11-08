@@ -7,6 +7,8 @@ class Platform:
         self.width = width
         self.height = height
         self.screen = screen
+        self.rectPlat = pygame.Rect(int(x), int(y), int(width), int(height))
+        # surf = pygame.Rect(width, height)
 
     def draw(self):
         pygame.draw.rect(self.screen, (0, 255, 0), (self.x, self.y, self.width, self.height))
