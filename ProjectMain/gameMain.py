@@ -2,6 +2,7 @@ import pygame, sys
 from pygame.locals import *
 from gameChar import gameChar
 from gamePlatform import Platform
+from gameItem import gameItem
 
 pygame.init()
 
@@ -50,7 +51,6 @@ while True:
 
         char = gameChar(800, 750, screen)
 
-
         def platforms(screen):
             return [
                 Platform(100, 700, 150, 20, screen),
@@ -65,8 +65,8 @@ while True:
                 Platform(1150, 100, 120, 20, screen)
             ]
 
-
         platform_list = platforms(screen)
+        item = gameItem(1200, 80, screen)
 
         running = True
         while running:
@@ -79,18 +79,21 @@ while True:
             char.move(pressed_keys)
             char.draw()
             char.setgrounded(False)
+
+
             for plat in platform_list:
                 platRect = plat.rectPlat
                 charRect = char.rectMod
                 if charRect.colliderect(platRect):
                     if charRect.bottom <= platRect.top + 20 and char.rectMod.y < platRect.y and char.yVel <= 0:
-                        char.rectMod.y = platRect.top - charRect.height+2
                         char.setgrounded(True)
-
-
-
                 plat.draw()
 
+
+            if item.visible:
+                if char.rectMod.colliderect(item.rect):
+                    item.collect()
+            item.draw()
 
             pygame.display.update()
             clock.tick(30)
