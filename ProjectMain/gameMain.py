@@ -48,9 +48,9 @@ while running:
         charRect = char.rectMod
         if charRect.colliderect(platRect):
             if charRect.bottom <= platRect.top + 20 and char.rectMod.y < platRect.y:
-                char.rectMod.y = platRect.top - charRect.height+5
+                char.rectMod.y = platRect.top - charRect.height+2
                 char.yVel = 0
-                grounded=True
+
 
         plat.draw()
 
