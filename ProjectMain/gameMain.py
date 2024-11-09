@@ -84,7 +84,7 @@ while True:
                 charRect = char.rectMod
                 if charRect.colliderect(platRect):
                     if charRect.bottom <= platRect.top + 20 and char.rectMod.y < platRect.y and char.yVel <= 0:
-
+                        char.rectMod.y = platRect.top - charRect.height+2
                         char.setgrounded(True)
 
 
