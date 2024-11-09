@@ -47,7 +47,7 @@ while running:
         platRect = plat.rectPlat
         charRect = char.rectMod
         if platRect.colliderect(charRect) and charRect.colliderect() :
-
+            print("lmao")
         plat.draw()
 
     pygame.display.update()
