@@ -19,10 +19,13 @@ class gameChar:
             self.rectMod.x += 5
         if pressed_keys[pygame.K_a] and self.rectMod.x >= 0:
             self.rectMod.x -= 5
+        if pressed_keys[pygame.K_z]:
+            print(self.grounded)
         if pressed_keys[pygame.K_SPACE]:
-            self.yVel = 20
-            self.rectMod.y -= 1
-            print("jump")
+            if self.grounded or self.rectMod.y == 750:
+                self.yVel = 20
+                self.rectMod.y -= 1
+                self.grounded = False
         if not self.grounded:
             if self.rectMod.y - self.yVel > 750:
                 self.rectMod.y = 750
