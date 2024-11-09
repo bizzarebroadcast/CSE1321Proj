@@ -46,9 +46,8 @@ while running:
     for plat in platform_list:
         platRect = plat.rectPlat
         charRect = char.rectMod
-        if platRect.colliderect(charRect):
+        if platRect.colliderect(charRect) and charRect.colliderect() :
 
-            print("They hit a platform")
         plat.draw()
 
     pygame.display.update()
