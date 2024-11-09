@@ -47,7 +47,7 @@ while running:
         platRect = plat.rectPlat
         charRect = char.rectMod
         if charRect.colliderect(platRect):
-            if charRect.bottom <= platRect.top + 20 and char.rectMod.y < platRect.y:
+            if charRect.bottom <= platRect.top + 20 and char.rectMod.y < platRect.y and char.yVel <= 0:
                 char.rectMod.y = platRect.top - charRect.height+2
                 char.yVel = 0
 
