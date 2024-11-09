@@ -6,8 +6,8 @@ class gameChar():
         self.x = x
         self.y = y
         self.screen = screen
-        self.jumping = False
         self.yVel = 0
+        self.grounded = False
         self.pressed_keys = pygame.key.get_pressed()
         #quick fix
         self.rectMod = pygame.Rect(x, y, 50, 50)
@@ -19,20 +19,19 @@ class gameChar():
             self.rectMod.x += 5
         if pressed_keys[pygame.K_a] and self.rectMod.x >= 0:
             self.rectMod.x -= 5
-        if pressed_keys[pygame.K_SPACE] and self.jumping == False:
-            self.jumping = True
+        if pressed_keys[pygame.K_SPACE]:
             self.yVel = 20
             self.rectMod.y -= 1
             print("jump")
-        if self.jumping == True:
+        if not self.grounded:
             if self.rectMod.y - self.yVel > 750:
                 self.rectMod.y = 750
                 self.yVel = 0
-                self.jumping = False
             elif self.rectMod.y <= 750:
                 self.rectMod.y -= self.yVel
             self.yVel -= 1
-
+    def setgrounded (self, grounded):
+        self.grounded = grounded
 
 
 
