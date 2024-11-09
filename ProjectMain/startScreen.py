@@ -20,7 +20,7 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if rect1.collidepoint(event.pos):
                 game_started = True
-    
+
     screen.fill((0, 0, 0))
 
     if (game_started == False):
@@ -32,16 +32,73 @@ while True:
         startGame = font.render("Start Game!", True, (0, 0, 0))
         right = font.render("Press D to move right", True, (0, 255, 0))
         left = font.render("Press A to move left", True, (0, 255, 0))
+        
 
         screen.blit(surf1, (rect1.x, rect1.y))
         screen.blit(startGame, (200, 414))
         screen.blit(right, (300, 200))
         screen.blit(left, (26.5, 200))
+       
 
     else:
-        font = pygame.font.Font(None, 36)
-        game_text = font.render("Game Started!", True, (255, 255, 255))
-        screen.blit(game_text, (150, 250))
+        import pygame
+        import sys
+        from gameChar import gameChar
+        from gamePlatform import Platform
+
+        pygame.init()
+
+        # hello
+
+        screen = pygame.display.set_mode((1400, 800))
+        clock = pygame.time.Clock()
+        pygame.display.set_caption("Funny Game")
+
+        blue = (0, 0, 255)
+        black = (0, 0, 0)
+
+        char = gameChar(800, 750, screen)
+
+
+        def platforms(screen):
+            return [
+                Platform(100, 700, 150, 20, screen),
+                Platform(300, 600, 150, 20, screen),
+                Platform(550, 500, 150, 20, screen),
+                Platform(800, 400, 150, 20, screen),
+                Platform(1000, 300, 150, 20, screen),
+                Platform(200, 500, 120, 20, screen),
+                Platform(450, 400, 120, 20, screen),
+                Platform(700, 300, 120, 20, screen),
+                Platform(950, 200, 120, 20, screen),
+                Platform(1150, 100, 120, 20, screen)
+            ]
+
+
+        platform_list = platforms(screen)
+
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+
+            screen.fill(black)
+            pressed_keys = pygame.key.get_pressed()
+            char.move(pressed_keys)
+            char.draw()
+
+            for plat in platform_list:
+                platRect = plat.rectPlat
+                charRect = char.rectMod
+                if platRect.colliderect(charRect) and charRect.colliderect():
+                    print("lmao")
+                plat.draw()
+
+            pygame.display.update()
+            clock.tick(30)
+
+        pygame.quit()
 
     pygame.display.flip()
     clock.tick(60)
