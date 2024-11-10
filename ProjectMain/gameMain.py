@@ -4,9 +4,9 @@ from gameChar import gameChar
 from gamePlatform import Platform
 from gameItem import gameItem
 
-
-
 pygame.init()
+
+victory_sound = pygame.mixer.Sound('HW Victory.mp3')
 
 resolution = (500, 500)
 screen = pygame.display.set_mode(resolution)
@@ -36,8 +36,6 @@ while True:
         startGame = font.render("Start Game!", True, (0, 0, 0))
         right = font.render("Press D to move right", True, (0, 255, 0))
         left = font.render("Press A to move left", True, (0, 255, 0))
-
-
 
         screen.blit(surf1, (rect1.x, rect1.y))
         screen.blit(startGame, (200, 414))
@@ -73,6 +71,8 @@ while True:
         item = gameItem(1200, 80, screen)
 
         running = True
+        sound_played = False
+
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -84,21 +84,21 @@ while True:
             char.draw()
             char.setgrounded(False)
 
-
             for plat in platform_list:
                 platRect = plat.rectPlat
                 charRect = char.rectMod
                 if charRect.colliderect(platRect):
                     if charRect.bottom <= platRect.top + 20 and char.rectMod.y < platRect.y and char.yVel <= 0:
                         char.rectMod.y= platRect.top-charRect.height+2
-
                         char.setgrounded(True)
                 plat.draw()
-
 
             if item.visible:
                 if char.rectMod.colliderect(item.rect):
                     item.collect()
+                    if not sound_played:
+                        victory_sound.play()
+                        sound_played = True
 
             item.draw()
 
@@ -112,7 +112,7 @@ while True:
                 font3 = pygame.font.Font(None, 50)
                 winGame = font.render("You Won!", True, (0, 255, 0))
                 winTxt = font2.render("Congrats!! :D", True, (255, 192, 203))
-                reset = font3.render("Press R to restart", True, (255, 0,0 ))
+                reset = font3.render("Press R to restart", True, (255, 0, 0))
                 screen.blit(surf1, (rect2.x, rect2.y))
                 screen.blit(winGame, (350, 500))
                 screen.blit(winTxt, (352, 650))
