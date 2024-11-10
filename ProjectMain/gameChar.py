@@ -23,7 +23,7 @@ class gameChar:
             print(self.grounded)
         if pressed_keys[pygame.K_SPACE]:
             if self.grounded or self.rectMod.y == 750:
-                self.yVel = 20
+                self.yVel = 15
                 self.rectMod.y -= 1
                 self.grounded = False
         if not self.grounded:

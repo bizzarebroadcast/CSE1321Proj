@@ -86,6 +86,8 @@ while True:
                 charRect = char.rectMod
                 if charRect.colliderect(platRect):
                     if charRect.bottom <= platRect.top + 20 and char.rectMod.y < platRect.y and char.yVel <= 0:
+                        char.rectMod.y= platRect.top-charRect.height+2
+
                         char.setgrounded(True)
                 plat.draw()
 
@@ -93,6 +95,7 @@ while True:
             if item.visible:
                 if char.rectMod.colliderect(item.rect):
                     item.collect()
+
             item.draw()
 
             pygame.display.update()
