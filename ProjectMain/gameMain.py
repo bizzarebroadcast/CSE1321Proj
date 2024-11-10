@@ -4,6 +4,8 @@ from gameChar import gameChar
 from gamePlatform import Platform
 from gameItem import gameItem
 
+
+
 pygame.init()
 
 resolution = (500, 500)
@@ -34,6 +36,8 @@ while True:
         startGame = font.render("Start Game!", True, (0, 0, 0))
         right = font.render("Press D to move right", True, (0, 255, 0))
         left = font.render("Press A to move left", True, (0, 255, 0))
+
+
 
         screen.blit(surf1, (rect1.x, rect1.y))
         screen.blit(startGame, (200, 414))
@@ -97,6 +101,19 @@ while True:
                     item.collect()
 
             item.draw()
+
+            if char.rectMod.colliderect(item.rect):
+                screen.fill((0, 0, 0))
+                rect2 = pygame.Rect(200, 400, 900, 350)
+                surf1 = pygame.Surface((rect2.width, rect2.height))
+                surf1.fill((255, 255, 255))
+                font = pygame.font.Font(None, 200)
+                font2 = pygame.font.Font(None, 90)
+                winGame = font.render("You Won!", True, (0, 255, 0))
+                winTxt = font2.render("Congrats!! :D", True, (255, 192, 203))
+                screen.blit(surf1, (rect2.x, rect2.y))
+                screen.blit(winGame, (350, 500))
+                screen.blit(winTxt, (352, 650))
 
             pygame.display.update()
             clock.tick(30)
