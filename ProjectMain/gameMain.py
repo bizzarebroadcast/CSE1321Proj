@@ -55,11 +55,11 @@ while True:
 
         def platforms(screen):
             return [
-                Platform(100, 700, 150, 20, screen),
-                Platform(300, 600, 150, 20, screen),
-                Platform(550, 500, 150, 20, screen),
-                Platform(800, 400, 150, 20, screen),
-                Platform(1000, 300, 150, 20, screen),
+                Platform(1150, 700, 150, 20, screen),
+                Platform(1000, 600, 150, 20, screen),
+                Platform(760, 530, 150, 20, screen),
+                Platform(590, 650, 150, 20, screen),
+                Platform(330, 620, 150, 20, screen),
                 Platform(200, 500, 120, 20, screen),
                 Platform(450, 400, 120, 20, screen),
                 Platform(700, 300, 120, 20, screen),
