@@ -22,7 +22,7 @@ while gameRunning:
     pressed_keys = pygame.key.get_pressed()
     for event in pygame.event.get():
 
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT or pressed_keys[pygame.K_ESCAPE]:
             gameRunning = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             if rect1.collidepoint(event.pos):
