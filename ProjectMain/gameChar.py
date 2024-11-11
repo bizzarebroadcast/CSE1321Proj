@@ -22,13 +22,11 @@ class gameChar:
             self.rectMod.x -= 5
         if pressed_keys[pygame.K_z]:
             print(self.grounded)
-        if pressed_keys[pygame.K_r]:
-            self.rectMod.x=800
-            self.rectMod.y= 750
 
 
         if pressed_keys[pygame.K_SPACE]:
             if self.grounded or self.rectMod.y == 750:
+                pygame.mixer.Sound('jump.mp3').play()
                 self.yVel = 15
                 self.rectMod.y -= 1
                 self.grounded = False

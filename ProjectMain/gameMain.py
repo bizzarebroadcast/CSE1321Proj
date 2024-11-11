@@ -13,39 +13,63 @@ screen = pygame.display.set_mode(resolution)
 clock = pygame.time.Clock()
 
 game_started = False
+gameRunning = True
+gameWin = False
+gameLoss = False
 
-while True:
-    keys = pygame.key.get_pressed()
+
+while gameRunning:
+    pressed_keys = pygame.key.get_pressed()
     for event in pygame.event.get():
-        if (event.type == QUIT):
-            sys.exit(0)
-        if (keys[pygame.K_ESCAPE]):
-            sys.exit(0)
+        if event.type == pygame.QUIT:
+            gameRunning = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             if rect1.collidepoint(event.pos):
                 game_started = True
 
+
     screen.fill((0, 0, 0))
 
-    if (game_started == False):
+    if not game_started:
         rect1 = pygame.Rect(200, 400, 100, 45)
         surf1 = pygame.Surface((rect1.width, rect1.height))
         surf1.fill((0, 255, 0))
 
         font = pygame.font.Font(None, 25)
         startGame = font.render("Start Game!", True, (0, 0, 0))
+        top = font.render("Collect the coin before the timer runs out!",True, (0, 255, 0))
         right = font.render("Press D to move right", True, (0, 255, 0))
         left = font.render("Press A to move left", True, (0, 255, 0))
+        bottom= font.render("Press Space to Jump",True, (0, 255, 0))
+
+
 
         screen.blit(surf1, (rect1.x, rect1.y))
+        screen.blit(top, (80, 100))
         screen.blit(startGame, (200, 414))
         screen.blit(right, (300, 200))
         screen.blit(left, (26.5, 200))
-
-
+        screen.blit(bottom, (175, 300))
+    elif gameWin:
+        screen.fill((0, 0, 0))
+        rect2 = pygame.Rect(200, 400, 900, 350)
+        surf1 = pygame.Surface((rect2.width, rect2.height))
+        surf1.fill((255, 255, 255))
+        font = pygame.font.Font(None, 200)
+        font2 = pygame.font.Font(None, 90)
+        font3 = pygame.font.Font(None, 50)
+        winGame = font.render("You Won!", True, (0, 255, 0))
+        winTxt = font2.render("Congrats!! :D", True, (255, 192, 203))
+        reset = font3.render("Press R to restart", True, (255, 0, 0))
+        screen.blit(surf1, (rect2.x, rect2.y))
+        screen.blit(winGame, (350, 500))
+        screen.blit(winTxt, (352, 650))
+        screen.blit(reset, (352, 450))
+        if pressed_keys[pygame.K_r]:
+            gameWin = False
+            sound_played = False
     else:
         screen = pygame.display.set_mode((1400, 800))
-        clock = pygame.time.Clock()
         pygame.display.set_caption("Funny Game")
 
         blue = (0, 0, 255)
@@ -77,9 +101,9 @@ while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-
+                    gameRunning = False  # Exit outer loop too
+                pressed_keys = pygame.key.get_pressed()
             screen.fill(black)
-            pressed_keys = pygame.key.get_pressed()
             char.move(pressed_keys)
             char.draw()
             char.setgrounded(False)
@@ -89,7 +113,7 @@ while True:
                 charRect = char.rectMod
                 if charRect.colliderect(platRect):
                     if charRect.bottom <= platRect.top + 20 and char.rectMod.y < platRect.y and char.yVel <= 0:
-                        char.rectMod.y= platRect.top-charRect.height+2
+                        char.rectMod.y = platRect.top - charRect.height + 2
                         char.setgrounded(True)
                 plat.draw()
 
@@ -103,25 +127,11 @@ while True:
             item.draw()
 
             if char.rectMod.colliderect(item.rect):
-                screen.fill((0, 0, 0))
-                rect2 = pygame.Rect(200, 400, 900, 350)
-                surf1 = pygame.Surface((rect2.width, rect2.height))
-                surf1.fill((255, 255, 255))
-                font = pygame.font.Font(None, 200)
-                font2 = pygame.font.Font(None, 90)
-                font3 = pygame.font.Font(None, 50)
-                winGame = font.render("You Won!", True, (0, 255, 0))
-                winTxt = font2.render("Congrats!! :D", True, (255, 192, 203))
-                reset = font3.render("Press R to restart", True, (255, 0, 0))
-                screen.blit(surf1, (rect2.x, rect2.y))
-                screen.blit(winGame, (350, 500))
-                screen.blit(winTxt, (352, 650))
-                screen.blit(reset, (352, 450))
+                gameWin = True
+                running = False
 
             pygame.display.update()
             clock.tick(30)
-
-        pygame.quit()
-
     pygame.display.flip()
     clock.tick(60)
+
