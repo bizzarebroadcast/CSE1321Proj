@@ -42,6 +42,7 @@ while gameRunning:
         right = font.render("Press D to move right", True, (0, 255, 0))
         left = font.render("Press A to move left", True, (0, 255, 0))
         bottom= font.render("Press Space to Jump",True, (0, 255, 0))
+        esc = font.render("Press ESC button to close game", True, (0, 255, 0))
 
 
 
@@ -51,6 +52,7 @@ while gameRunning:
         screen.blit(right, (300, 200))
         screen.blit(left, (26.5, 200))
         screen.blit(bottom, (175, 300))
+        screen.blit(esc, (130, 350))
     elif gameWin:
         screen.fill((0, 0, 0))
         rect2 = pygame.Rect(200, 400, 900, 350)
@@ -146,7 +148,9 @@ while gameRunning:
                         sound_played = True
 
             item.draw()
+
             seconds = timer_duration - (pygame.time.get_ticks() - start_ticks) // 1000
+
 
             font = pygame.font.Font(None, 40)
             timer_text = font.render(f"Time Left: {seconds}", True, (255, 255, 255))

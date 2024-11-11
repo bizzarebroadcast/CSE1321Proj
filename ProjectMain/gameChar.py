@@ -4,6 +4,8 @@ import sys
 
 class gameChar:
     def __init__(self, x, y, screen):
+        spawn_sound = pygame.mixer.Sound('spawnSqueak.mp3')
+        spawn_sound.play()
         self.x = x
         self.y = y
         self.screen = screen
@@ -22,7 +24,6 @@ class gameChar:
             self.rectMod.x -= 5
         if pressed_keys[pygame.K_z]:
             print(self.grounded)
-
 
         if pressed_keys[pygame.K_SPACE]:
             if self.grounded or self.rectMod.y == 750:
