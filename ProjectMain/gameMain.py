@@ -7,7 +7,7 @@ from gameItem import gameItem
 pygame.init()
 
 victory_sound = pygame.mixer.Sound('HW Victory.mp3')
-
+loss_sound = pygame.mixer.Sound('gameLoss.mp3')
 resolution = (500, 500)
 screen = pygame.display.set_mode(resolution)
 clock = pygame.time.Clock()
@@ -21,6 +21,7 @@ gameLoss = False
 while gameRunning:
     pressed_keys = pygame.key.get_pressed()
     for event in pygame.event.get():
+
         if event.type == pygame.QUIT:
             gameRunning = False
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -68,6 +69,24 @@ while gameRunning:
         if pressed_keys[pygame.K_r]:
             gameWin = False
             sound_played = False
+    elif gameLoss:
+        screen.fill((0, 0, 0))
+        rect2 = pygame.Rect(200, 400, 900, 350)
+        surf1 = pygame.Surface((rect2.width, rect2.height))
+        surf1.fill((255, 255, 255))
+        font = pygame.font.Font(None, 200)
+        font2 = pygame.font.Font(None, 90)
+        font3 = pygame.font.Font(None, 50)
+        winGame = font.render("You lost :(", True, (0, 255, 0))
+        winTxt = font2.render("Try again next time!", True, (255, 192, 203))
+        reset = font3.render("Press R to restart", True, (255, 0, 0))
+        screen.blit(surf1, (rect2.x, rect2.y))
+        screen.blit(winGame, (350, 500))
+        screen.blit(winTxt, (352, 650))
+        screen.blit(reset, (352, 450))
+        if pressed_keys[pygame.K_r]:
+            gameLoss = False
+            sound_played = False
     else:
         screen = pygame.display.set_mode((1400, 800))
         pygame.display.set_caption("Funny Game")
@@ -96,7 +115,8 @@ while gameRunning:
 
         running = True
         sound_played = False
-
+        timer_duration = 30
+        start_ticks = pygame.time.get_ticks()
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -107,6 +127,7 @@ while gameRunning:
             char.move(pressed_keys)
             char.draw()
             char.setgrounded(False)
+
 
             for plat in platform_list:
                 platRect = plat.rectPlat
@@ -125,7 +146,16 @@ while gameRunning:
                         sound_played = True
 
             item.draw()
+            seconds = timer_duration - (pygame.time.get_ticks() - start_ticks) // 1000
 
+            font = pygame.font.Font(None, 40)
+            timer_text = font.render(f"Time Left: {seconds}", True, (255, 255, 255))
+            screen.blit(timer_text, (10, 10))
+
+            if seconds <= 0:
+                loss_sound.play()
+                gameLoss = True
+                running = False
             if char.rectMod.colliderect(item.rect):
                 gameWin = True
                 running = False
