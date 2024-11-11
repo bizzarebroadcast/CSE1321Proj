@@ -6,8 +6,10 @@ from gameItem import gameItem
 
 pygame.init()
 
+background_music = pygame.mixer.Sound('BG Music.mp3')
 victory_sound = pygame.mixer.Sound('HW Victory.mp3')
 loss_sound = pygame.mixer.Sound('gameLoss.mp3')
+land_sound = pygame.mixer.Sound('land.wav')
 resolution = (500, 500)
 screen = pygame.display.set_mode(resolution)
 clock = pygame.time.Clock()
@@ -17,34 +19,32 @@ gameRunning = True
 gameWin = False
 gameLoss = False
 
-
 while gameRunning:
     pressed_keys = pygame.key.get_pressed()
     for event in pygame.event.get():
-
         if event.type == pygame.QUIT or pressed_keys[pygame.K_ESCAPE]:
             gameRunning = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             if rect1.collidepoint(event.pos):
                 game_started = True
-
+                background_music.play(-1)
 
     screen.fill((0, 0, 0))
 
     if not game_started:
+        background_music.stop()
+
         rect1 = pygame.Rect(200, 400, 100, 45)
         surf1 = pygame.Surface((rect1.width, rect1.height))
         surf1.fill((0, 255, 0))
 
         font = pygame.font.Font(None, 25)
         startGame = font.render("Start Game!", True, (0, 0, 0))
-        top = font.render("Collect the coin before the timer runs out!",True, (0, 255, 0))
+        top = font.render("Collect the coin before the timer runs out!", True, (0, 255, 0))
         right = font.render("Press D to move right", True, (0, 255, 0))
         left = font.render("Press A to move left", True, (0, 255, 0))
-        bottom= font.render("Press Space to Jump",True, (0, 255, 0))
+        bottom = font.render("Press Space to Jump", True, (0, 255, 0))
         esc = font.render("Press ESC button to close game", True, (0, 255, 0))
-
-
 
         screen.blit(surf1, (rect1.x, rect1.y))
         screen.blit(top, (80, 100))
@@ -54,6 +54,8 @@ while gameRunning:
         screen.blit(bottom, (175, 300))
         screen.blit(esc, (130, 350))
     elif gameWin:
+        background_music.stop()
+
         screen.fill((0, 0, 0))
         rect2 = pygame.Rect(200, 400, 900, 350)
         surf1 = pygame.Surface((rect2.width, rect2.height))
@@ -71,7 +73,10 @@ while gameRunning:
         if pressed_keys[pygame.K_r]:
             gameWin = False
             sound_played = False
+            background_music.play(-1)
     elif gameLoss:
+        background_music.stop()
+
         screen.fill((0, 0, 0))
         rect2 = pygame.Rect(200, 400, 900, 350)
         surf1 = pygame.Surface((rect2.width, rect2.height))
@@ -89,6 +94,7 @@ while gameRunning:
         if pressed_keys[pygame.K_r]:
             gameLoss = False
             sound_played = False
+            background_music.play(-1)
     else:
         screen = pygame.display.set_mode((1400, 800))
         pygame.display.set_caption("Funny Game")
@@ -117,6 +123,7 @@ while gameRunning:
 
         running = True
         sound_played = False
+        landing_played = False
         timer_duration = 30
         start_ticks = pygame.time.get_ticks()
         while running:
@@ -130,7 +137,6 @@ while gameRunning:
             char.draw()
             char.setgrounded(False)
 
-
             for plat in platform_list:
                 platRect = plat.rectPlat
                 charRect = char.rectMod
@@ -138,6 +144,11 @@ while gameRunning:
                     if charRect.bottom <= platRect.top + 20 and char.rectMod.y < platRect.y and char.yVel <= 0:
                         char.rectMod.y = platRect.top - charRect.height + 2
                         char.setgrounded(True)
+                        if not landing_played:
+                            land_sound.play()
+                            landing_played = True
+                    else:
+                        landing_played = False
                 plat.draw()
 
             if item.visible:
@@ -168,4 +179,3 @@ while gameRunning:
             clock.tick(30)
     pygame.display.flip()
     clock.tick(60)
-
